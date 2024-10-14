@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Facebook</title>
     {% load static %}
-    <link rel="stylesheet" href="https://cs-people.bu.edu/mslee300/a05/style.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     <header>
@@ -13,7 +13,8 @@
     </header>
 
     <nav>
-        <!-- Navigation links (for future features) -->
+        <a href="{% url 'show_all_profiles' %}">All Profiles</a>
+        <a href="{% url 'create_profile' %}">Create Profile</a>
     </nav>
 
     <div class="content">
