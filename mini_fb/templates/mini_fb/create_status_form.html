@@ -3,9 +3,17 @@
 {% block content %}
   <h1>Post a Status for {{ profile.first_name }} {{ profile.last_name }}</h1>
 
-  <form method="POST">
+  <!-- Add enctype for file uploads -->
+  <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    
+    <!-- Display the form fields for the StatusMessage -->
     {{ form.as_p }}
+    
+    <!-- Add the file input for images -->
+    <input type="file" name="files" multiple />
+    
+    <!-- Submit button -->
     <button type="submit">Post Status</button>
   </form>
 

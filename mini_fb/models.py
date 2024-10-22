@@ -25,5 +25,17 @@ class StatusMessage(models.Model):
     message = models.TextField()
     profile = models.ForeignKey('Profile', on_delete=models.CASCADE)
 
+    def get_images(self):
+        return Image.objects.filter(status_message=self).order_by('timestamp')
+
     def __str__(self):
         return f"{self.profile.first_name}: {self.message[:50]}"
+    
+
+class Image(models.Model):
+    image_file = models.ImageField(upload_to='images/')
+    status_message = models.ForeignKey('StatusMessage', on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Image for StatusMessage: {self.status_message.id} uploaded on {self.timestamp}"

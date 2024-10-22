@@ -1,31 +1,48 @@
-{% extends 'mini_fb/base.html' %}
+{% extends 'mini_fb/base.html' %} {% block content %}
 
-{% block content %}
+<h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
 
-  <h1>{{ profile.first_name }} {{ profile.last_name }}</h1>
+<img
+  src="{{ profile.profile_image_url }}"
+  alt="Profile Image"
+  style="width: 200px; height: auto"
+/>
 
-  <img src="{{ profile.profile_image_url }}" alt="Profile Image" style="width: 200px; height: auto;">
+<p><strong>First Name:</strong> {{ profile.first_name }}</p>
+<p><strong>Last Name:</strong> {{ profile.last_name }}</p>
+<p><strong>Location:</strong> {{ profile.city }}</p>
+<p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
 
-  <p><strong>First Name:</strong> {{ profile.first_name }}</p>
-  <p><strong>Last Name:</strong> {{ profile.last_name }}</p>
-  <p><strong>Location:</strong> {{ profile.city }}</p>
-  <p><strong>Birth Date:</strong> {{ profile.birth_date }}</p>
+<h3>Status Messages</h3>
 
-  <h3>Status Messages</h3>
+{% if profile.get_status_messages %}
+<ul>
+  {% for message in profile.get_status_messages %}
+  <li>
+    <strong>{{ message.timestamp }}:</strong> {{ message.message }}
+    <br />
 
-    {% if profile.get_status_messages %}
-    <ul>
-        {% for message in profile.get_status_messages %}
-        <li>
-            <strong>{{ message.timestamp }}:</strong> {{ message.message }}
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>No status messages to display.</p>
-    {% endif %}
+    <!-- Loop through images associated with this status message -->
+    {% for img in message.get_images %}
+    <img
+      src="{{ img.image_file.url }}"
+      alt="Image"
+      style="width: 100px; height: auto"
+    />
+    {% endfor %}
 
-    <a href="{% url 'create_status' profile.pk %}">Create Status</a>
+    <!-- Add Update Link -->
+    <a href="{% url 'update_status' message.pk %}">Update</a> |
+    <!-- Add Delete Link -->
+    <a href="{% url 'delete_status' message.pk %}">Delete</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No status messages to display.</p>
+{% endif %}
 
+<a href="{% url 'create_status' profile.pk %}">Create Status</a>
+<a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
 
 {% endblock %}
