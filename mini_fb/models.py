@@ -29,7 +29,7 @@ class StatusMessage(models.Model):
         return Image.objects.filter(status_message=self).order_by('timestamp')
 
     def __str__(self):
-        return f"{self.profile.first_name}: {self.message[:50]}"
+        return f"{self.profile.first_name}: {self.message[:50]}"    
     
 
 class Image(models.Model):
