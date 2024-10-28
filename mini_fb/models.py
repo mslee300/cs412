@@ -19,6 +19,37 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    def get_friends(self):
+        friends = Friend.objects.filter(models.Q(profile1=self) | models.Q(profile2=self))
+        friends_profiles = [friend.profile2 if friend.profile1 == self else friend.profile1 for friend in friends]
+        return friends_profiles
+    
+    def add_friend(self, other):
+        if self == other:
+            return
+        
+        if not Friend.objects.filter(
+            models.Q(profile1=self, profile2=other) | models.Q(profile1=other, profile2=self)
+        ).exists():
+            Friend.objects.create(profile1=self, profile2=other)
+
+    def get_friend_suggestions(self):
+        friends_ids = [friend.id for friend in self.get_friends()]
+        return Profile.objects.exclude(id__in=friends_ids + [self.id])
+    
+    def get_news_feed(self):
+        profiles = [self] + self.get_friends()
+        return StatusMessage.objects.filter(profile__in=profiles).order_by('-timestamp')
+
+
+class Friend(models.Model):
+    profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile1")
+    profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile2")
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.profile1} & {self.profile2}"
+
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
