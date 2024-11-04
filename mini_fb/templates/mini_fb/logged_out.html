@@ -1,0 +1,6 @@
+{% extends 'mini_fb/base.html' %}
+{% block content %}
+    <h1>You have been logged out</h1>
+    <p><a href="{% url 'login' %}">Log in again</a></p>
+    <p><a href="{% url 'show_all_profiles' %}">Return to All Profiles</a></p>
+{% endblock %}

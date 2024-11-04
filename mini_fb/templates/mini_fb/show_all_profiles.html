@@ -1,19 +1,15 @@
-{% extends 'mini_fb/base.html' %} {% block content %}
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
 <h1>All Profiles</h1>
 
 <ul>
   {% for profile in profiles %}
   <li>
     <a href="{% url 'show_profile' profile.pk %}" style="color: blue">
-      <h2>
-        {{ profile.first_name }} {{ profile.last_name }}
-        <br />{{ profile.city }}
-      </h2>
-      <img
-        src="{{ profile.profile_image_url }}"
-        alt="Profile Image"
-        style="width: 200px; height: auto"
-      />
+      <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+      <p>{{ profile.city }}</p>
+      <img src="{{ profile.profile_image_url }}" alt="Profile Image" style="width: 200px; height: auto" />
     </a>
   </li>
   {% endfor %}

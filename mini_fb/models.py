@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
 class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     city = models.CharField(max_length=100)
@@ -40,6 +42,9 @@ class Profile(models.Model):
     def get_news_feed(self):
         profiles = [self] + self.get_friends()
         return StatusMessage.objects.filter(profile__in=profiles).order_by('-timestamp')
+    
+    def is_owner(self, user):
+        return self.user == user
 
 
 class Friend(models.Model):

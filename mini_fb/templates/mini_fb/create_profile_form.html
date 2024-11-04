@@ -2,12 +2,18 @@
 
 {% block content %}
   <h1>Create a Profile</h1>
-  <p>Fill in the form below to create your new profile.</p>
+  <p>Fill in the form below to create your new profile and user account.</p>
   
   <form method="POST">
     {% csrf_token %}
+    
+    <h2>User Account</h2>
+    {{ user_form.as_p }}
+    
+    <h2>Profile Details</h2>
     {{ form.as_p }}
-    <button type="submit">Create Profile!</button>
+    
+    <button type="submit">Create Profile</button>
     <a href="{% url 'show_all_profiles' %}">Cancel</a>
   </form>
 {% endblock %}

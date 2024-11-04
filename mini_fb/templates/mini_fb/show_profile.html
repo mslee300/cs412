@@ -15,6 +15,7 @@
     {% if profile.get_friends %}
         {% for friend in profile.get_friends %}
             <div class="friend">
+                <!-- Use 'show_profile_other' for friends' profile links -->
                 <a href="{% url 'show_profile' friend.pk %}">
                     <img src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }}'s profile image" style="width: 100px; height: auto;">
                     <p>{{ friend.first_name }} {{ friend.last_name }}</p>
@@ -45,9 +46,9 @@
     <p>No status messages to display.</p>
 {% endif %}
 
-<a href="{% url 'create_status' profile.pk %}">Create Status</a>
-<a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
-<a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a>
-<a href="{% url 'news_feed' profile.pk %}">News Feed</a>
+<a href="{% url 'create_status' %}">Create Status</a>
+<a href="{% url 'update_profile' %}">Update Profile</a>
+<a href="{% url 'friend_suggestions' %}">Friend Suggestions</a>
+<a href="{% url 'news_feed' %}">News Feed</a>
 
 {% endblock %}

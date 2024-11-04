@@ -127,3 +127,5 @@ MEDIA_URL = '/media/'
 
 # This is the folder where uploaded files will be stored on your local system
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/mini_fb/login/'

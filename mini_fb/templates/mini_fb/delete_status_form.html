@@ -7,12 +7,11 @@
 
   <p><strong>{{ status_message.message }}</strong></p>
 
-  <!-- Confirm Delete Form -->
   <form method="POST">
     {% csrf_token %}
     <button type="submit">Yes, delete</button>
   </form>
 
-  <!-- Cancel Delete, return to profile page -->
-  <a href="{% url 'show_profile' status_message.profile.pk %}">Cancel</a>
+  <a href="{% url 'show_profile' %}">Cancel</a>
+
 {% endblock %}
