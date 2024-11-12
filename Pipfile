@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 gunicorn = "*"
 plotly = "*"
+pandas = "*"
+pillow = "*"
 
 [dev-packages]
 
