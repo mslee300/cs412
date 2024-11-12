@@ -1,0 +1,95 @@
+<!-- voter_list.html -->
+<h1>Voter List</h1>
+
+<form method="get">
+    <label>Party Affiliation:
+        <select name="party">
+            <option value="">All</option>
+            <option value="D">Democrat</option>
+            <option value="R">Republican</option>
+            <option value="U">Unaffiliated</option>
+        </select>
+    </label>
+    
+    <label>Minimum Date of Birth:
+        <input type="date" name="min_dob">
+    </label>
+
+    <label>Maximum Date of Birth:
+        <input type="date" name="max_dob">
+    </label>
+
+    <label>Voter Score:
+        <select name="voter_score">
+            <option value="">All</option>
+            {% for score in score_range %}
+                <option value="{{ score }}">{{ score }}</option>
+            {% endfor %}
+        </select>        
+    </label>
+
+    <label>Voted in 2020 State Election:
+        <input type="checkbox" name="v20state">
+    </label>
+
+    <label>Voted in 2021 Town Election:
+        <input type="checkbox" name="v21town">
+    </label>
+
+    <label>Voted in 2021 Primary Election:
+        <input type="checkbox" name="v21primary">
+    </label>
+
+    <label>Voted in 2022 General Election:
+        <input type="checkbox" name="v22general">
+    </label>
+
+    <label>Voted in 2023 Town Election:
+        <input type="checkbox" name="v23town">
+    </label>
+
+    <button type="submit">Filter</button>
+</form>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Street Address</th>
+            <th>Date of Birth</th>
+            <th>Party Affiliation</th>
+            <th>Voter Score</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for voter in voters %}
+            <tr>
+                <td>{{ voter.first_name }}</td>
+                <td>{{ voter.last_name }}</td>
+                <td>{{ voter.street_number }} {{ voter.street_name }}</td>
+                <td>{{ voter.date_of_birth }}</td>
+                <td>{{ voter.party_affiliation }}</td>
+                <td>{{ voter.voter_score }}</td>
+                <td><a href="{% url 'voter' voter.pk %}">Details</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination -->
+<div>
+    {% if is_paginated %}
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    {% endif %}
+</div>

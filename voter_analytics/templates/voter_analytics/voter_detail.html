@@ -1,0 +1,20 @@
+<!-- voter_detail.html -->
+<h1>Voter Details</h1>
+<p><strong>Name:</strong> {{ voter.first_name }} {{ voter.last_name }}</p>
+<p><strong>Address:</strong> {{ voter.street_number }} {{ voter.street_name }} {{ voter.apartment_number }}</p>
+<p><strong>Date of Birth:</strong> {{ voter.date_of_birth }}</p>
+<p><strong>Party Affiliation:</strong> {{ voter.party_affiliation }}</p>
+<p><strong>Voter Score:</strong> {{ voter.voter_score }}</p>
+<p><strong>Voted in 2020 State Election:</strong> {{ voter.v20state }}</p>
+<p><strong>Voted in 2021 Town Election:</strong> {{ voter.v21town }}</p>
+<p><strong>Voted in 2021 Primary Election:</strong> {{ voter.v21primary }}</p>
+<p><strong>Voted in 2022 General Election:</strong> {{ voter.v22general }}</p>
+<p><strong>Voted in 2023 Town Election:</strong> {{ voter.v23town }}</p>
+
+<!-- Google Maps Link -->
+<p>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ voter.street_number }}+{{ voter.street_name }}+{{ voter.zip_code }}" target="_blank">
+        View on Google Maps
+    </a>
+</p>
+<a href="{% url 'voters' %}">Back to Voter List</a>

@@ -1,0 +1,67 @@
+<!-- graphs.html -->
+<h1>Voter Data Analysis</h1>
+
+<form method="get">
+    <label>Party Affiliation:
+        <select name="party">
+            <option value="">All</option>
+            <option value="D">Democrat</option>
+            <option value="R">Republican</option>
+            <option value="U">Unaffiliated</option>
+        </select>
+    </label>
+
+    <label>Minimum Date of Birth:
+        <input type="date" name="min_dob">
+    </label>
+
+    <label>Maximum Date of Birth:
+        <input type="date" name="max_dob">
+    </label>
+
+    <label>Voter Score:
+        <select name="voter_score">
+            <option value="">All</option>
+            {% for score in score_range %}
+                <option value="{{ score }}">{{ score }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Voted in 2020 State Election:
+        <input type="checkbox" name="v20state">
+    </label>
+
+    <label>Voted in 2021 Town Election:
+        <input type="checkbox" name="v21town">
+    </label>
+
+    <label>Voted in 2021 Primary Election:
+        <input type="checkbox" name="v21primary">
+    </label>
+
+    <label>Voted in 2022 General Election:
+        <input type="checkbox" name="v22general">
+    </label>
+
+    <label>Voted in 2023 Town Election:
+        <input type="checkbox" name="v23town">
+    </label>
+
+    <button type="submit">Filter</button>
+</form>
+
+<div>
+    <h2>Distribution of Voters by Year of Birth</h2>
+    {{ birth_year_hist|safe }}
+</div>
+
+<div>
+    <h2>Distribution of Voters by Party Affiliation</h2>
+    {{ party_pie|safe }}
+</div>
+
+<div>
+    <h2>Distribution of Voter Participation in Elections</h2>
+    {{ election_hist|safe }}
+</div>
