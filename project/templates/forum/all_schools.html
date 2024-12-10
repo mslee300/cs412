@@ -15,12 +15,12 @@
                 <div class="post-meta">
                     {% if post.likes.count > 0 %}
                     <span class="post-icon likes">
-                        <img src="{% static 'img/like-icon.svg' %}" alt="Likes"> <span>{{ post.likes.count }}</span>
+                        <img src="https://cs-people.bu.edu/mslee300/project/like-icon.svg" alt="Likes"> <span>{{ post.likes.count }}</span>
                     </span>
                     {% endif %}
                     {% if post.comments.count > 0 %}
                     <span class="post-icon comments">
-                        <img src="{% static 'img/comment-icon.svg' %}" alt="Comments"> <span>{{ post.comments.count }}</span>
+                        <img src="https://cs-people.bu.edu/mslee300/project/comment-icon.svg" alt="Comments"> <span>{{ post.comments.count }}</span>
                     </span>
                     {% endif %}
                     <span class="post-time-univ">
@@ -30,7 +30,7 @@
             </div>
             {% if post.images.exists %}
             <div class="post-thumbnail">
-                <img src="{{ post.images.first.image.url }}" alt="게시물 사진" onerror="this.onerror=null; this.src='{% static 'img/placeholder-image.svg' %}';">
+                <img src="{{ post.images.first.image.url }}" alt="게시물 사진" onerror="this.onerror=null; this.src='https://cs-people.bu.edu/mslee300/project/placeholder-image.svg'>
             </div>
             {% endif %}
         </a>
@@ -44,7 +44,7 @@
 </section>
 <section>
     <a href="{% url 'create_post' 'all_schools' %}" class="create-post-button">
-        <img src="{% static 'img/plus-icon.svg' %}" alt="Create Post">
+        <img src="https://cs-people.bu.edu/mslee300/project/plus-icon.svg" alt="Create Post">
     </a>
 </section>
 {% include "header/navbar-bottom.html" %}

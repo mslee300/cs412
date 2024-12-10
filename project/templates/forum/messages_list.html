@@ -36,13 +36,13 @@
                         {% if item.item_type == "Comment" %}
                             {% if item.likes.count > 0 %}
                             <span class="post-icon likes">
-                                <img src="{% static 'img/like-icon.svg' %}" alt="Likes">
+                                <img src="https://cs-people.bu.edu/mslee300/project/like-icon.svg" alt="Likes">
                                 {{ item.likes.count }}
                             </span>
                             {% endif %}
                             {% if item.post.comments.count > 0 %}
                             <span class="post-icon comments">
-                                <img src="{% static 'img/comment-icon.svg' %}" alt="Comments">
+                                <img src="https://cs-people.bu.edu/mslee300/project/comment-icon.svg" alt="Comments">
                                 {{ item.post.comments.count }}
                             </span>
                             {% endif %}
