@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="search-page">
+    <header class="search-header">
+        <a href="{% url 'index' %}" class="back-icon">
+            <img src="{% static 'img/back-icon.svg' %}" alt="Back">
+        </a>
+        <form method="get" action="{% url 'search_results' %}" class="search-form">
+            <img src="{% static 'img/search-icon.svg' %}" alt="Search">&nbsp;&nbsp;
+            <input type="text" name="q" placeholder="제목이나 내용을 검색해보세요" required>
+            <!-- <button type="submit">
+                <img src="{% static 'img/search-icon.svg' %}" alt="Search">
+            </button> -->
+        </form>
+    </header>
+    <section class="recommended-keywords">
+        <h2>추천 검색어</h2>
+        <div class="keyword-list">
+            {% for keyword in recommended_keywords %}
+            <a href="{% url 'search_results' %}?q={{ keyword }}" class="keyword">{{ keyword }}</a>
+            {% endfor %}
+        </div>
+    </section>
+</main>
+{% include "header/navbar-bottom.html" %}
+{% endblock %}

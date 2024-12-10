@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+<header class="message-room-header">
+    <a href="{% url 'messages_list' %}" class="back-button">
+        <img src="{% static 'img/back-icon.svg' %}" alt="Back">
+    </a>
+    <h1>쪽지</h1>
+</header>
+<main>
+    <div class="message-room">
+        <div class="messages">
+            {% for message in messages %}
+            <div class="message-wrapper {% if message.sender == user %}user-message{% else %}other-message{% endif %}">
+                {% if message.sender != user %}
+                <div class="message-sender">
+                    <strong>익명 {{ message.sender.university.short_name }}</strong>
+                </div>
+                {% endif %}
+                <div class="message-bubble">
+                    <p class="message-content">{{ message.content }}</p>
+                    <p class="message-timestamp">{{ message.timestamp|format_post_time }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <form method="post" class="send-message-form">
+            {% csrf_token %}
+            <div class="input-wrapper">
+                <textarea name="content" placeholder="쪽지를 입력하세요." class="message-input"></textarea>
+                <button type="submit" class="send-button">
+                    <img src="{% static 'img/send-icon.svg' %}" alt="Send">
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

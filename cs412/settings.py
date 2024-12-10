@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'quotes',
     'restaurant',
-    'mini_fb',
     'voter_analytics',
+    'project',
 ]
 
 MIDDLEWARE = [
@@ -123,10 +123,16 @@ STATICFILES_DIRS = [
 
 import os
 
+AUTH_USER_MODEL = "project.User"  # Use the custom User model
+
+
+
 # This is the URL that will be used to access uploaded files in the browser
 MEDIA_URL = '/media/'
 
 # This is the folder where uploaded files will be stored on your local system
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/mini_fb/login/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'all_schools'
+LOGOUT_REDIRECT_URL = 'login'

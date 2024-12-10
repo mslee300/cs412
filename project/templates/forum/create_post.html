@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="create-post">
+    <header class="create-post-header">
+        <button class="back-button" onclick="history.back()">
+            <img src="{% static 'img/back-icon.svg' %}" alt="Back">
+        </button>
+        <h1>글쓰기</h1>
+    </header>
+    <form method="post" enctype="multipart/form-data" class="create-post-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" name="title" id="title" placeholder="제목을 입력하세요." class="form-input">
+        </div>
+        <div class="form-group">
+            <label for="content" class="form-label">내용</label>
+            <textarea name="content" id="content" placeholder="내용을 입력하세요." class="form-input textarea"></textarea>
+        </div>
+        <div class="form-group image-upload">
+            <label for="images" class="image-upload-label">
+                <img src="{% static 'img/image-upload-icon.svg' %}" alt="Upload">
+                <span id="upload-counter">0/1</span>
+            </label>
+            <input type="file" name="images" id="images" multiple class="image-upload-input">
+        </div>
+        <div class="image-preview-container" id="image-preview-container"></div>
+        <button type="submit" class="submit-button">저장하기</button>
+    </form>
+</div>
+<script>
+    document.getElementById("images").addEventListener("change", function(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById("image-preview-container");
+        const uploadCounter = document.getElementById("upload-counter");
+
+        // Clear previous previews
+        previewContainer.innerHTML = "";
+
+        // Update upload counter
+        uploadCounter.innerText = `${files.length}/1`;
+
+        // Preview uploaded images
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = "Image Preview";
+                    img.classList.add("image-preview");
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+{% endblock %}

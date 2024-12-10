@@ -5,8 +5,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('quotes.urls')),
     path('restaurant/', include('restaurant.urls')),
-    path('mini_fb/', include('mini_fb.urls')),
     path('voter_analytics/', include('voter_analytics.urls')),
+    path('project/', include('project.urls')),
 ]
 
 # This is for serving media files during development

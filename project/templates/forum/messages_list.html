@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+<section class="messages-list">
+    <h2 class="messages-title">쪽지함</h2>
+    <div class="message-list">
+        {% for item in items %}
+        <a href="{% if item.item_type == "MessageRoom" %}{% url 'message_room' item.id %}{% elif item.item_type == "Comment" %}{% url 'post_detail' item.post.id %}{% elif item.item_type == "Reply" %}{% url 'post_detail' item.comment.post.id %}{% endif %}" class="message-item">
+            <div class="message-content">
+                <p class="message-type">
+                    {% if item.item_type == "MessageRoom" %}
+                        {% if item.creator == user %}보낸 쪽지{% else %}받은 쪽지{% endif %}
+                    {% elif item.item_type == "Comment" %}
+                        댓글
+                    {% elif item.item_type == "Reply" %}
+                        대댓글
+                    {% endif %}
+                </p>
+                <p class="message-text">
+                    {% if item.item_type == "MessageRoom" %}
+                        {% if item.messages.last %}
+                            {{ item.messages.last.content|truncatewords:20 }}
+                        {% else %}
+                            No messages yet.
+                        {% endif %}
+                    {% elif item.item_type == "Comment" or item.item_type == "Reply" %}
+                        {{ item.content|truncatewords:20 }}
+                    {% endif %}
+                </p>
+                <div class="message-meta">
+                    {% if item.item_type == "MessageRoom" %}
+                        <span>{{ item.timestamp|format_post_time }} | 익명 {{ item.other_user.university.short_name }}</span>
+                    {% elif item.item_type == "Comment" or item.item_type == "Reply" %}
+                        <span>{{ item.timestamp|format_post_time }} | {{ item.author.university.short_name }}</span>
+                        {% if item.item_type == "Comment" %}
+                            {% if item.likes.count > 0 %}
+                            <span class="post-icon likes">
+                                <img src="{% static 'img/like-icon.svg' %}" alt="Likes">
+                                {{ item.likes.count }}
+                            </span>
+                            {% endif %}
+                            {% if item.post.comments.count > 0 %}
+                            <span class="post-icon comments">
+                                <img src="{% static 'img/comment-icon.svg' %}" alt="Comments">
+                                {{ item.post.comments.count }}
+                            </span>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% include "header/navbar-bottom.html" %}
+{% endblock %}

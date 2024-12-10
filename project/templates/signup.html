@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="signup-container">
+    <div class="signup-logo">
+        <img src="{% static 'img/signup-logo.png' %}" alt="youtalk logo">
+    </div>
+    <form method="post" class="signup-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <p>학교메일</p>
+            {{ form.email }}
+            {% if form.email.errors %}
+                <ul class="error-messages">
+                    {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <p>비밀번호</p>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <ul class="error-messages">
+                    {% for error in form.password1.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <p>비밀번호 확인</p>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <ul class="error-messages">
+                    {% for error in form.password2.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <button type="submit">회원가입</button>
+    </form>
+    <p class="signup-links">
+        이미 계정이 있으신가요? <a style="font-weight:bold;color:#ff4500;text-decoration: none;" href="{% url 'login' %}">로그인</a>
+    </p>
+</div>
+{% endblock %}

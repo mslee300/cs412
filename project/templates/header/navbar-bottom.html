@@ -1,0 +1,23 @@
+{% load static %}
+<div class="bottom-nav-container">
+    <nav class="bottom-nav">
+        <a href="{% url 'index' %}" 
+           class="{% if request.resolver_match.url_name in 'index region_forum school_forum' %}active{% endif %}">
+            <img src="{% static 'img/home-gray.svg' %}" alt="Home" class="icon">
+            <img src="{% static 'img/home-color.svg' %}" alt="Home Active" class="icon-active">
+            <span>홈</span>
+        </a>
+        <a href="{% url 'messages_list' %}" 
+           class="{% if request.resolver_match.url_name == 'messages_list' %}active{% endif %}">
+            <img src="{% static 'img/messages-gray.svg' %}" alt="Messages" class="icon">
+            <img src="{% static 'img/messages-color.svg' %}" alt="Messages Active" class="icon-active">
+            <span>쪽지함</span>
+        </a>
+        <a href="{% url 'profile_page' %}" 
+           class="{% if request.resolver_match.url_name == 'profile_page' %}active{% endif %}">
+            <img src="{% static 'img/more-gray.svg' %}" alt="More" class="icon">
+            <img src="{% static 'img/more-color.svg' %}" alt="More Active" class="icon-active">
+            <span>더보기</span>
+        </a>
+    </nav>
+</div>

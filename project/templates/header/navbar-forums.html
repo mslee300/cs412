@@ -1,0 +1,5 @@
+<nav class="sticky-nav">
+    <a href="{% url 'index' %}" class="{% if request.resolver_match.url_name == 'index' %}active{% endif %}">전체 학교</a>
+    <a href="{% url 'region_forum' %}" class="{% if request.resolver_match.url_name == 'region_forum' %}active{% endif %}">내 지역</a>
+    <a href="{% url 'school_forum' %}" class="{% if request.resolver_match.url_name == 'school_forum' %}active{% endif %}">내 학교</a>
+</nav>

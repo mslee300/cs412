@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="login-container">
+    <div class="login-logo">
+        <img src="{% static 'img/login-logo.png' %}" alt="youtalk logo">
+    </div>
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="학교메일" required>
+        <input type="password" name="password" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+    </form>
+    <p class="login-links">
+        <a style="color:#888888;" href="#">비밀번호 찾기</a> | 
+        <a href="{% url 'signup' %}">회원가입</a>
+    </p>
+</div>
+{% endblock %}

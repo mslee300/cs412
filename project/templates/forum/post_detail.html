@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+{% include "header/navbar-back.html" %}
+<main class="post-detail">
+    <section class="post-header">
+        <h1>{{ post.title }}</h1>
+        <p class="post-content">{{ post.content }}</p>
+        <div class="post-meta">
+            <span>{{ post.created_at|format_post_time }}</span> |
+            <span>{{ post.author.university.short_name }}</span> |
+            <span>Comments: {{ post.comments.count }}</span>
+        </div>
+        <div class="post-actions">
+            <button id="post-like-{{ post.id }}" onclick="toggleLike('post', {{ post.id }}, 'post-likes-count')">
+                {% if user in post.likes.all %}
+                Unlike ({{ post.likes.count }})
+                {% else %}
+                Like ({{ post.likes.count }})
+                {% endif %}
+            </button>
+            <span id="post-likes-count">{{ post.likes.count }}</span>
+            <button onclick="location.href='{% url 'create_message_room' post.author.id %}'">Message</button>
+            {% if user == post.author %}
+            <button onclick="location.href='{% url 'edit_post' post.id %}'">Edit</button>
+            <button onclick="confirmDelete('{% url 'delete_post' post.id %}')">Delete</button>
+            {% endif %}
+        </div>
+    </section>
+
+    {% if post.images.exists %}
+    <section class="post-images">
+        {% for image in post.images.all %}
+        <img src="{{ image.image.url }}" class="post-image" alt="Post Image">
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <section class="post-comments">
+        {% for comment in post.comments.all %}
+        <div class="comment">
+            <div class="comment-header">
+                <span><strong>{{ comment.author }}</strong></span>
+                <span>{{ comment.created_at|format_post_time }}</span> |
+                <span>{{ comment.author.university.short_name }}</span>
+            </div>
+            <p class="comment-content">{{ comment.content }}</p>
+            <div class="comment-actions">
+                <button id="comment-like-{{ comment.id }}" onclick="toggleLike('comment', {{ comment.id }}, 'comment-likes-{{ comment.id }}')">
+                    {% if user in comment.likes.all %}
+                    Unlike ({{ comment.likes.count }})
+                    {% else %}
+                    Like ({{ comment.likes.count }})
+                    {% endif %}
+                </button>
+                <span id="comment-likes-{{ comment.id }}">{{ comment.likes.count }}</span>
+                <button onclick="location.href='{% url 'create_message_room' comment.author.id %}'">Message</button>
+                <button class="reply-button" onclick="toggleReplyForm({{ comment.id }})">Reply</button>
+            </div>
+            <div class="replies">
+                {% for reply in comment.replies.all %}
+                <div class="reply">
+                    <div class="reply-header">
+                        <span><strong>{{ reply.author }}</strong></span>
+                        <span>{{ reply.created_at|format_post_time }}</span> |
+                        <span>{{ reply.author.university.short_name }}</span>
+                    </div>
+                    <p class="reply-content">{{ reply.content }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <p>댓글이 없습니다.</p>
+        {% endfor %}
+    </section>
+
+    <section class="add-comment">
+        <form method="post" class="add-comment-form">
+            {% csrf_token %}
+            <div class="input-wrapper">
+                <textarea name="content" placeholder="댓글을 입력하세요." class="comment-input"></textarea>
+                <button type="submit" class="comment-submit">
+                    <img src="{% static 'img/send-icon.svg' %}" alt="Send">
+                </button>
+            </div>
+        </form>
+    </section>    
+</main>
+<script>
+    function toggleReplyForm(commentId) {
+        const form = document.getElementById(`reply-form-${commentId}`);
+        form.style.display = form.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleLike(contentType, objectId, likesCountId) {
+        fetch("/toggle-like/", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content_type: contentType, object_id: objectId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.error) {
+                const likeButton = document.getElementById(`${contentType}-like-${objectId}`);
+                const likesCountElement = document.getElementById(likesCountId);
+                likeButton.innerText = data.liked ? `Unlike (${data.like_count})` : `Like (${data.like_count})`;
+                likesCountElement.innerText = `${data.like_count}`;
+            }
+        })
+        .catch(error => console.error("Request failed:", error));
+    }
+
+    function confirmDelete(url) {
+        if (confirm("Are you sure you want to delete this? This action cannot be undone.")) {
+            window.location.href = url;
+        }
+    }
+</script>
+{% endblock %}

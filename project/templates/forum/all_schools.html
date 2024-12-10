@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block content %}
+{% include "header/navbar-main.html" %}
+{% include "header/navbar-forums.html" %}
+<section class="posts">
+    {% if posts %}
+    <div class="post-list">
+        {% for post in posts %}
+        <a href="{% url 'post_detail' post.id %}" class="post-item">
+            <div class="post-content">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.content|truncatewords:20 }}</p>
+                <div class="post-meta">
+                    {% if post.likes.count > 0 %}
+                    <span class="post-icon likes">
+                        <img src="{% static 'img/like-icon.svg' %}" alt="Likes"> <span>{{ post.likes.count }}</span>
+                    </span>
+                    {% endif %}
+                    {% if post.comments.count > 0 %}
+                    <span class="post-icon comments">
+                        <img src="{% static 'img/comment-icon.svg' %}" alt="Comments"> <span>{{ post.comments.count }}</span>
+                    </span>
+                    {% endif %}
+                    <span class="post-time-univ">
+                        {{ post.created_at|format_post_time }} | {{ post.author.university.short_name }}
+                    </span>
+                </div>
+            </div>
+            {% if post.images.exists %}
+            <div class="post-thumbnail">
+                <img src="{{ post.images.first.image.url }}" alt="게시물 사진" onerror="this.onerror=null; this.src='{% static 'img/placeholder-image.svg' %}';">
+            </div>
+            {% endif %}
+        </a>
+        {% empty %}
+        <p>아직 게시물이 없습니다.</p>
+        {% endfor %}
+    </div>      
+    {% else %}
+    <p>아직 게시물이 없습니다.</p>
+    {% endif %}
+</section>
+<section>
+    <a href="{% url 'create_post' 'all_schools' %}" class="create-post-button">
+        <img src="{% static 'img/plus-icon.svg' %}" alt="Create Post">
+    </a>
+</section>
+{% include "header/navbar-bottom.html" %}
+{% endblock %}

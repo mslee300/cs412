@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="profile-page">
+    <header>
+        <div class="profile-header">
+            <img src="{% static 'img/dummy-profile.svg' %}" alt="Profile Image" class="profile-image">
+            <h2>{{ user.email }}</h2>
+            <p>{{ user.university.name }}</p>
+        </div>
+    </header>
+    <main>
+        <section class="profile-options">
+            <h3>계정</h3>
+            <ul>
+                <li>
+                    <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">로그아웃</button>
+                    </form>
+                </li>                
+                <li><a href="#">문의하기</a></li>
+                <li><a href="#">신고하기</a></li>
+                <li><a href="{% url 'delete_account' %}" onclick="return confirm('Are you sure you want to deactivate your account?')">회원 탈퇴</a></li>
+            </ul>
+        </section>
+        <section class="profile-guides">
+            <h3>이용 안내</h3>
+            <ul>
+                <li><a href="#">서비스 이용약관</a></li>
+                <li><a href="#">개인정보 처리방침</a></li>
+                <li><a href="#">커뮤니티 이용규칙</a></li>
+            </ul>
+        </section>
+    </main>
+</div>
+{% include "header/navbar-bottom.html" %}
+{% endblock %}
