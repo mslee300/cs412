@@ -30,7 +30,7 @@
             </div>
             {% if post.images.exists %}
             <div class="post-thumbnail">
-                <img src="{{ post.images.first.image.url }}" alt="게시물 사진" onerror="this.onerror=null; this.src='https://cs-people.bu.edu/mslee300/project/placeholder-image.svg'>
+                <img src="{{ post.images.first.image.url }}" alt="게시물 사진" onerror="this.onerror=null; this.src='{% static 'img/placeholder-image.svg' %}';">
             </div>
             {% endif %}
         </a>
